@@ -8,7 +8,9 @@ import '@/locale';
 import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
+import qs from 'qs';
 
+Vue.prototype.$qs = qs;
 Vue.use(VueI18n);
 Vue.use(iView);
 

@@ -5,6 +5,7 @@ import Vue from 'vue';
 
 const app = {
     state: {
+        serverUrl: 'http://localhost:8080/',
         cachePage: [],
         lang: '',
         isFullScreen: false,
