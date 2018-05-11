@@ -180,7 +180,9 @@
                 // console.log(isFullScreen);
             },
             scrollBarResize () {
-                this.$refs.scrollBar.resize();
+                if(this.$refs.scrollBar){
+                    this.$refs.scrollBar.resize();
+                }
             }
         },
         watch: {

@@ -6,6 +6,7 @@ import Vue from 'vue';
 const app = {
     state: {
         serverUrl: 'http://localhost:8080/',
+        token: '',
         cachePage: [],
         lang: '',
         isFullScreen: false,
@@ -173,6 +174,9 @@ const app = {
         },
         setAvator (state, path) {
             localStorage.avatorImgPath = path;
+        },
+        setToken (state, newToken) {
+            state.token = newToken;
         },
         switchLang (state, lang) {
             state.lang = lang;

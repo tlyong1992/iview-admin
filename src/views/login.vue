@@ -38,15 +38,14 @@
 </template>
 
 <script>
- import Cookies from 'js-cookie';
-// import axios from 'axios';
-//import api from '../api';
+import Cookies from 'js-cookie';
+import api from '../api';
 
 export default {
     data () {
         return {
             form: {
-                username: 'iview_admin',
+                username: '',
                 password: ''
             },
             rules: {
@@ -63,31 +62,23 @@ export default {
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-//                    let serverUrl = this.$store.state.app.serverUrl;
-//                    // 发送一个 POST 请求
-//                   const message = this.$Message;
-//
-//                   api.post('http://localhost:8080/webLogin', this.form).then(function(response){
-//                      console.log('return:');
-//                      console.log(response.data.msg);
-//                     message.success(response.data.msg);
-//                    });
-
-//                  api.post('http://10.10.13.35:8080/webLogin', {username: 'abc', password: 'abc'}).then().catch();
-//                  api.post('http://10.10.13.57:8080/sys/login', {username: 'linhm', password: '123456'}).then().catch();
-
-                      Cookies.set('user', this.form.username);
-                      Cookies.set('password', this.form.password);
-                      this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                      if (this.form.userName === 'iview_admin') {
-                          Cookies.set('access', 0);
-                      } else {
-                          Cookies.set('access', 1);
-                      }
-                      this.$router.push({
-                          name: 'home_index'
-                      });
-                  }
+                    // 异步回调 用常量存储当前对象
+                    const that = this;
+                    api.post('signIn', this.form).then(function(response){
+                        if(response.code === 200) {
+                            that.$Message.success(response.msg);
+                            Cookies.set('user', that.form.username);
+                            Cookies.set('access', 0);
+                            that.$store.commit('setToken', 'testToken');
+                            that.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
+                            that.$router.push({
+                                name: 'home_index'
+                            });
+                        } else {
+                            that.message.error(response.msg);
+                        }
+                    });
+                }
             });
         }
     }
